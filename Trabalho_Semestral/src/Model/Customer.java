@@ -5,6 +5,15 @@ public class Customer {
     private int id;
     private String nome;
     private String numeroTelefone;
+
+    public Customer() {
+    }
+
+    public Customer(int id, String nome, String numeroTelefone) {
+        this.id = id;
+        this.nome = nome;
+        this.numeroTelefone = numeroTelefone;
+    }
     
     
 

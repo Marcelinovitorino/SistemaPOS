@@ -1,54 +1,37 @@
 package View;
 
-import static Conection.ConnectionMySQL.getConnection;
+import static Connection.ConnectionMySQL.getConnection;
+import Controller.CustomerController;
+import Model.Customer;
+import java.awt.HeadlessException;
 import java.sql.*;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author DELL
- */
 public class CustomerPanel extends javax.swing.JPanel {
-
-
-
+    
+    private CustomerController customerController;
+    
     public CustomerPanel() {
         initComponents();
+        customerController = new CustomerController();
         tb_load();
     }
-
+    
     public void tb_load() {
         DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
         dt.setRowCount(0);
-
-        String sql = "select * from customer;";
-        PreparedStatement pst = null;
-        ResultSet rs;
-        try {
-            pst = getConnection().prepareStatement(sql);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-             Vector<String> v = new Vector<>();
-
-
-                v.add(rs.getString(1));
-                v.add(rs.getString(2));
-                v.add(rs.getString(3));
-
-                dt.addRow(v);
-
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e);
+        
+        List<Customer> customers = customerController.getAllCustomers();
+        for (Customer customer : customers) {
+            dt.addRow(new Object[]{customer.getId(), customer.getNome(), customer.getNumeroTelefone()});
         }
-
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -152,7 +135,7 @@ public class CustomerPanel extends javax.swing.JPanel {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(tfnumero, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +199,7 @@ public class CustomerPanel extends javax.swing.JPanel {
                 .addGap(57, 57, 57)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(tfprocurar, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                .addComponent(tfprocurar, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                 .addGap(171, 171, 171))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
@@ -259,7 +242,7 @@ public class CustomerPanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -318,14 +301,11 @@ public class CustomerPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         String nome = tfnome.getText();
         String numero = tfnumero.getText();
-        String sql = "insert into cliente (nome, numerotelefone ) values ('" + nome + "','" + numero + "');";
-        PreparedStatement pst = null;
         try {
-            pst = getConnection().prepareStatement(sql);
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "salvo");
-        } catch (SQLException e) {
-            System.out.println(e);
+            customerController.saveCustomer(nome, numero);
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso");
+        } catch (HeadlessException e) {
+              JOptionPane.showMessageDialog(null, "Erro ao salvar: " + e.getMessage());
         }
         tb_load();
 
@@ -338,14 +318,14 @@ public class CustomerPanel extends javax.swing.JPanel {
         try {
             pst = getConnection().prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
-
+            
             if (rs.next()) {
-
+                
                 tfnome.setText(rs.getString("nome").toString());
                 tfnumero.setText(rs.getString("numerotelefone").toString());
                 JOptionPane.showMessageDialog(null, "encotrado");
             } else {
-
+                
                 JOptionPane.showMessageDialog(null, "erro");
             }
         } catch (SQLException ex) {
@@ -399,7 +379,7 @@ public class CustomerPanel extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         int r = jTable1.getSelectedRow();
-
+        
         String id = jTable1.getValueAt(r, 0).toString();
         String nome = jTable1.getValueAt(r, 1).toString();
         String telefone = jTable1.getValueAt(r, 2).toString();
@@ -414,22 +394,22 @@ public class CustomerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tfprocurarTBActionPerformed
 
     private void tfprocurarTBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfprocurarTBKeyReleased
-
+        
         try {
             DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
             dt.setRowCount(0);
-            String nome =  tfprocurarTB.getText();
+            String nome = tfprocurarTB.getText();
             ResultSet rs;
-
-            String sql = "select * from cliente where nome like '%" +nome + "%';";
+            
+            String sql = "select * from cliente where nome like '%" + nome + "%';";
             PreparedStatement pst = null;
-
+            
             pst = getConnection().prepareStatement(sql);
             rs = pst.executeQuery();
             
             while (rs.next()) {
                 Vector<String> v = new Vector<>();
-
+                
                 v.add(rs.getString(0));
                 v.add(rs.getString(1));
                 v.add(rs.getString(2));

@@ -1,4 +1,4 @@
-package Conection;
+package Connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,8 @@ public class ConnectionMySQL {
     private static String URL = "jdbc:mysql://localhost:3306/ts";
     private static String USER = "root";
     private static String PASSWORD = "0000";
-   
-     static {
+
+    static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -20,19 +20,15 @@ public class ConnectionMySQL {
     }
 
     public static Connection getConnection() throws SQLException {
-        if (connection == null) {
+        // Check if the connection is closed or null before creating a new one
+        if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-
         }
         return connection;
     }
 
     public static boolean verifyConnection() {
-        Connection conexao = null;
-
-        try {
-
-            conexao = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conexao = DriverManager.getConnection(URL, USER, PASSWORD)) {
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,14 +36,21 @@ public class ConnectionMySQL {
         }
     }
 
-    public void closeConnection() throws SQLException {
-        if (connection != null) {
+    public static void closeConnection() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
             connection.close();
+            connection = null; // Reset connection reference to avoid reuse
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        System.out.println(getConnection());
+    public static void main(String[] args) {
+        try {
+            Connection conn = getConnection();
+            System.out.println("Connection established: " + conn);
+            // Optionally, close the connection for testing
+            closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
 }
