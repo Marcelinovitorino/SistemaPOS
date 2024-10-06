@@ -45,7 +45,7 @@ public class NewPassword extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(375, 522));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/apitherapy100.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/apitherapy100.png"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
@@ -92,7 +92,7 @@ public class NewPassword extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Main principal = new Main();
+        Home principal = new Home();
         dispose();
         principal.show();
     }//GEN-LAST:event_jButton1ActionPerformed
