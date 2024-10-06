@@ -12,11 +12,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author DELL
  */
-public class Customer extends javax.swing.JPanel {
+public class CustomerPanel extends javax.swing.JPanel {
 
 
 
-    public Customer() {
+    public CustomerPanel() {
         initComponents();
         tb_load();
     }
@@ -25,7 +25,7 @@ public class Customer extends javax.swing.JPanel {
         DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
         dt.setRowCount(0);
 
-        String sql = "select * from cliente;";
+        String sql = "select * from customer;";
         PreparedStatement pst = null;
         ResultSet rs;
         try {
@@ -349,7 +349,7 @@ public class Customer extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "erro");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CustomerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         tb_load();
 
