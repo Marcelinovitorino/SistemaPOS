@@ -12,14 +12,13 @@ public class CustomerDAO {
     public void save(Customer customer) {
         String sql = "INSERT INTO cliente (nome, numerotelefone) VALUES (?, ?)";
 
-        try (Connection conn = ConnectionMySQL.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
-            
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+
             pst.setString(1, customer.getNome());
             pst.setString(2, customer.getNumeroTelefone());
             pst.executeUpdate();
         } catch (SQLException e) {
-             JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
         }
     }
@@ -28,9 +27,7 @@ public class CustomerDAO {
         String sql = "SELECT * FROM cliente";
         List<Customer> customers = new ArrayList<>();
 
-        try (Connection conn = ConnectionMySQL.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql);
-             ResultSet rs = pst.executeQuery()) {
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
                 Customer customer = new Customer();
@@ -40,17 +37,16 @@ public class CustomerDAO {
                 customers.add(customer);
                 System.out.println(customer);
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return customers;
     }
-    
-        public Customer findCustomerById(int id) throws SQLException {
+
+    public Customer findCustomerById(int id) throws SQLException {
         String sql = "SELECT * FROM cliente WHERE id = ?";
-        try (Connection connection = ConnectionMySQL.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
+        try (Connection connection = ConnectionMySQL.getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
@@ -62,8 +58,7 @@ public class CustomerDAO {
 
     public void deleteCustomer(int id) throws SQLException {
         String sql = "DELETE FROM cliente WHERE id = ?";
-        try (Connection connection = ConnectionMySQL.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
+        try (Connection connection = ConnectionMySQL.getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setInt(1, id);
             pst.executeUpdate();
         }
@@ -71,8 +66,7 @@ public class CustomerDAO {
 
     public void updateCustomer(Customer customer) throws SQLException {
         String sql = "UPDATE cliente SET nome = ?, numerotelefone = ? WHERE id = ?";
-        try (Connection connection = ConnectionMySQL.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
+        try (Connection connection = ConnectionMySQL.getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, customer.getNome());
             pst.setString(2, customer.getNumeroTelefone());
             pst.setInt(3, customer.getId());
@@ -83,8 +77,7 @@ public class CustomerDAO {
     public List<Customer> searchCustomersByName(String name) throws SQLException {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM cliente WHERE nome LIKE ?";
-        try (Connection connection = ConnectionMySQL.getConnection();
-             PreparedStatement pst = connection.prepareStatement(sql)) {
+        try (Connection connection = ConnectionMySQL.getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, "%" + name + "%");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {

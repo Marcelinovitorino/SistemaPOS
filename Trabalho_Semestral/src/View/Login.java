@@ -4,13 +4,35 @@
  */
 package View;
 
+import static Connection.ConnectionMySQL.verifyConnection;
+import Controller.UserController;
+import DAO.UserDAO;
+import Model.User;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author PC
  */
 public class Login extends javax.swing.JFrame {
+
     public Login() {
         initComponents();
+        checkDatabaseConnection();
+
+    }
+    UserController userController = new UserController();
+
+    private void checkDatabaseConnection() {
+        if (verifyConnection()) {
+            jLabel2.setIcon(new ImageIcon(getClass().getResource("/Resources/connected.png")));
+        } else {
+            jLabel2.setIcon(new ImageIcon(getClass().getResource("/Resources/disconnected.png")));
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -32,6 +54,7 @@ public class Login extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -68,6 +91,11 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("E-mail");
 
         jTextField2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
         jLabel5.setText("Senha");
@@ -104,6 +132,8 @@ public class Login extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(242, 160, 7));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/apitherapy100.png"))); // NOI18N
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/connected.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -111,7 +141,9 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel2)
+                        .addGap(85, 85, 85)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -169,7 +201,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(51, 51, 51)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addGap(30, 30, 30))
@@ -206,10 +240,44 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Home principal = new Home();
-        dispose();
-        principal.show();
+
+        String email = jTextField2.getText();
+        String password = jPasswordField1.getText();
+        UserDAO userDAO = new UserDAO();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            String perfil = userController.validateLogin(email, password);
+
+            if (perfil != null) {
+                Home principal = new Home();
+                switch (perfil) {
+                    case "admin":
+                        principal.enableAdminFeatures();
+                        break;
+                    case "gestor":
+                        principal.enableGestorFeatures();
+                        break;
+                    case "operador":
+                        principal.enableOperadorFeatures();
+                        break;
+                }
+
+                principal.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Username ou senha incorretos!", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
@@ -217,8 +285,12 @@ public class Login extends javax.swing.JFrame {
         RedifinirSenha redifinirSenha = new RedifinirSenha();
         dispose();
         redifinirSenha.show();
-        
+
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     public static void main(String args[]) {
 
@@ -228,11 +300,12 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-     
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
