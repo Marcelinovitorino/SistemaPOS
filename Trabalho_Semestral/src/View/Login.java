@@ -6,8 +6,6 @@ package View;
 
 import static Connection.ConnectionMySQL.verifyConnection;
 import Controller.UserController;
-import DAO.UserDAO;
-import Model.User;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -221,7 +219,7 @@ public class Login extends javax.swing.JFrame {
 
         String email = jTextField2.getText();
         String password = jPasswordField1.getText();
-        UserDAO userDAO = new UserDAO();
+      
 
         if (email.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro", JOptionPane.ERROR_MESSAGE);
