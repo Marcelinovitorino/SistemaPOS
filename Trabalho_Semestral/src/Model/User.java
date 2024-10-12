@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Model;
 
 import java.sql.Timestamp;
@@ -17,10 +14,10 @@ public class User {
     private int estado;
     private Timestamp dataCriacao;
 
-    // Construtor padrão
+   
     public User() {}
 
-    // Construtor completo
+  
     public User(int id, String nome, String numeroTelefone, String perfil, String username, String senha, int estado, Timestamp dataCriacao) {
         this.id = id;
         this.nome = nome;
@@ -32,7 +29,7 @@ public class User {
         this.dataCriacao = dataCriacao;
     }
 
-    // Getters e Setters
+   
     public int getId() {
         return id;
     }

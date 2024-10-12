@@ -14,8 +14,6 @@ public class Customer {
         this.nome = nome;
         this.numeroTelefone = numeroTelefone;
     }
-    
-    
 
     // Getters e setters
     public int getId() {

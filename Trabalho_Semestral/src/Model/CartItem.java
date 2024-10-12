@@ -10,6 +10,19 @@ public class CartItem {
     private String precoUnit;
     private String precoTotal;
 
+    public CartItem() {
+    }
+
+    public CartItem(int id, int idFatura, String nomeProduto, String idProduto, String quantidade, String precoUnit, String precoTotal) {
+        this.id = id;
+        this.idFatura = idFatura;
+        this.nomeProduto = nomeProduto;
+        this.idProduto = idProduto;
+        this.quantidade = quantidade;
+        this.precoUnit = precoUnit;
+        this.precoTotal = precoTotal;
+    }
+
     // Getters e Setters
     public int getId() {
         return id;
