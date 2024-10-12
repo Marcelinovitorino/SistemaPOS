@@ -20,24 +20,30 @@ public class Home extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void enableAdminFeatures() {
+    public void enableAdminFeatures(String email) {
         jButton1.setVisible(true);
         jButton7.setVisible(true);
         jButton3.setVisible(true);
+        jLabel4.setText("Administrador");
+        jLabel3.setText(email);
     }
 
-    public void enableGestorFeatures() {
+    public void enableGestorFeatures(String email) {
         jButton1.setVisible(true);
         jButton7.setVisible(true);
         jButton3.setVisible(false);
+        jLabel4.setText("Gestor");
+        jLabel3.setText(email);
 
     }
 
-    public void enableOperadorFeatures() {
+    public void enableOperadorFeatures(String email) {
         jButton1.setVisible(false);
         jButton7.setVisible(false);
         jButton3.setVisible(true);
-        
+        jLabel4.setText("Operador");
+        jLabel3.setText(email);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -54,6 +60,8 @@ public class Home extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         panel_load = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -117,6 +125,15 @@ public class Home extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 630));
         jPanel1.add(panel_load, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 80, 810, 500));
+
+        jLabel3.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/emp.png"))); // NOI18N
+        jLabel3.setText("jLabel3");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 20, 100, -1));
+
+        jLabel4.setFont(new java.awt.Font("Agency FB", 1, 12)); // NOI18N
+        jLabel4.setText("Administrador");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 40, 120, 20));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 630));
 
@@ -198,6 +215,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel panel_load;
