@@ -4,13 +4,22 @@
  */
 package View;
 
+import Controller.CartController;
 import Controller.CustomerController;
 import Controller.ExtraController;
 import Controller.ProductController;
+import Controller.SaleController;
+import Model.CartItem;
 import Model.Customer;
 import Model.Extra;
 import Model.Product;
+import Model.Sale;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -30,7 +39,12 @@ public class OperadorCaixa extends javax.swing.JFrame {
         initComponents();
         tb_load();
         data_load();
+        datalad();
 
+    }
+
+    void enableOperadorFeatures(String email) {
+        jLabel4.setText(email);
     }
 
     public void tb_load() {
@@ -48,10 +62,6 @@ public class OperadorCaixa extends javax.swing.JFrame {
                 customer.getNumeroTelefone()
             });
         }
-    }
-
-    void enableOperadorFeatures(String email) {
-        jLabel4.setText(email);
     }
 
     public void data_load() {
@@ -118,6 +128,82 @@ public class OperadorCaixa extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             System.out.println("Erro ao incrementar valor: " + e.getMessage());
         }
+    }
+
+    public void pro_tot_cal() {
+
+        // product calculation
+        Double qt = Double.valueOf(jTextField5.getText());
+        Double price = Double.valueOf(jLabel17.getText());
+        Double tot;
+
+        tot = qt * price;
+
+        jLabel19.setText(String.valueOf(tot));
+
+    }
+
+    public void cart_total() {
+
+        int numofrow = jTable2.getRowCount();
+
+        double total = 0;
+        double totals = 0;
+        for (int i = 0; i < numofrow; i++) {
+
+            double value = Double.valueOf(jTable2.getValueAt(i, 5).toString());
+            total += value;
+
+            ///total qty count 
+            double values = Double.valueOf(jTable2.getValueAt(i, 3).toString());
+            totals += values;
+        }
+
+        BigDecimal bd = new BigDecimal(total);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        String totalstring = bd.toString();
+
+        jTextField7.setText(totalstring);
+
+        int valorInt = (int) totals;
+        jLabel23.setText(String.valueOf(valorInt));
+    }
+
+    public void tot() {
+
+        Double paid = Double.valueOf(jTextField6.getText());
+        Double tot = Double.valueOf(jTextField7.getText());
+        Double due;
+
+        due = paid - tot;
+        BigDecimal bd = new BigDecimal(due);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        String totalstring = bd.toString();
+
+        jTextField8.setText(String.valueOf(totalstring));
+
+    }
+
+    public void datalad() {
+
+        DefaultTableModel dt = (DefaultTableModel) jTable3.getModel();
+        dt.setRowCount(0);
+        SaleController saleController = new SaleController();
+        List<Sale> sales = saleController.getAllSales(); // Em produção, substitua isso por logs adequados
+        for (Sale sale : sales) {
+            // Cada cliente será adicionado como uma nova linha na tabela
+            dt.addRow(new Object[]{
+                sale.getId(),
+                sale.getIdFatura(),
+                sale.getIdCliente(),
+                sale.getNomeCliente(),
+                sale.getQuantidadeTotal(),
+                sale.getTotalPago(),
+                sale.getStatus(),
+                sale.getTroco()
+            });
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -191,6 +277,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
+        jTextField11 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
@@ -506,31 +593,42 @@ public class OperadorCaixa extends javax.swing.JFrame {
         jButton5.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Adcionar ao Carinho");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(36, 80, 166));
         jButton6.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Remover do Carinho");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(232, 0, 0));
         jButton7.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("Remover tudo");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton6)
-                            .addComponent(jButton5)))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jButton7)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
@@ -553,6 +651,12 @@ public class OperadorCaixa extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel14.setText("Produto");
+
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel15.setText("Quantidade");
@@ -578,19 +682,27 @@ public class OperadorCaixa extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
 
         jLabel21.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel21.setText("Valor Pago");
+
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
 
         jLabel22.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel22.setText("Numero de itens");
@@ -633,6 +745,12 @@ public class OperadorCaixa extends javax.swing.JFrame {
 
         jLabel32.setText("00.00");
 
+        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField11ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
@@ -668,12 +786,15 @@ public class OperadorCaixa extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(28, 28, 28)
-                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel13Layout.createSequentialGroup()
                                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(jPanel13Layout.createSequentialGroup()
+                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -732,7 +853,8 @@ public class OperadorCaixa extends javax.swing.JFrame {
                     .addComponent(jLabel17)
                     .addComponent(jLabel18)
                     .addComponent(jLabel19)
-                    .addComponent(jLabel20))
+                    .addComponent(jLabel20)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
@@ -749,7 +871,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel9.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 810, 490));
@@ -792,13 +914,13 @@ public class OperadorCaixa extends javax.swing.JFrame {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "id", "Data", "Cliente", "Produto", "Total", " Pagamento", "Status"
+                "id", "Data", "Cliente", "Produto", "Total", " Pagamento", "Status", "Title 8"
             }
         ));
         jScrollPane3.setViewportView(jTable3);
@@ -959,7 +1081,85 @@ public class OperadorCaixa extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+        CartController cartController = new CartController();
+        SaleController salesController = new SaleController();
+        ExtraController extraController = new ExtraController();
+
+        try {
+            // Fetching data from the UI table
+            DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+            int rc = dt.getRowCount();
+            List<CartItem> cartItems = new ArrayList<>();
+
+            for (int i = 0; i < rc; i++) {
+                String inid = jLabel32.getText();
+                String produtid = dt.getValueAt(i, 0).toString(); // get product ID
+                String P_name = dt.getValueAt(i, 2).toString(); // get product name
+                String qty = dt.getValueAt(i, 3).toString(); // get product quantity
+                String un_price = dt.getValueAt(i, 4).toString(); // get product unit price
+                String tot_price = dt.getValueAt(i, 5).toString(); // get product total price
+
+                // Create CartItem object
+                CartItem cartItem = new CartItem(0, Integer.parseInt(inid), P_name, produtid, qty, un_price, tot_price);
+                cartItems.add(cartItem);
+            }
+
+            // Use CartController to handle the database operations
+            cartController.addItemsToCart(cartItems);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error adding items to cart");
+            e.printStackTrace();
+        }
+
+        try {
+            int inv_id = Integer.parseInt(jLabel32.getText()); // Get idFatura
+            String cname = jComboBox1.getSelectedItem().toString(); // Customer name
+            int totqty = Integer.parseInt(jLabel23.getText()); // Total quantity as int
+            BigDecimal total = new BigDecimal(jTextField7.getText()); // Total bill as BigDecimal
+            BigDecimal blnc = new BigDecimal(jTextField8.getText()); // Balance as BigDecimal
+
+            int cus_id = 3; // Customer ID (use 3 instead of 03)
+
+            // Payment status determination
+            double paid = Double.parseDouble(jTextField6.getText());
+            String status = (paid == 0.0) ? "UnPaid" : (total.doubleValue() > paid) ? "Partial" : "Paid";
+
+            // Create Sale object
+            Sale sale = new Sale(0, inv_id, cus_id, cname, totqty, total, status, blnc);
+
+            // Save sale using the sales controller
+            salesController.saveSale(sale);
+
+            JOptionPane.showMessageDialog(null, "Sale recorded successfully!");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error recording sale: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        //EXTRA
+        // EXTRA
+        try {
+            String id = jLabel32.getText();
+
+            if (extraController.updateExtraVal(id)) {
+                JOptionPane.showMessageDialog(null, "Data saved successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "No rows updated. Check if the record exists.");
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error occurred while saving data: " + e.getMessage());
+        }
+        try {
+            DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
+            dt.setRowCount(0);
+        } catch (Exception e) {
+        }
+        cart_total();
+        tot();
+
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
@@ -1042,7 +1242,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
         }
 
         tb_load();
-        tb_load();
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
@@ -1095,6 +1295,70 @@ public class OperadorCaixa extends javax.swing.JFrame {
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_jLabel28MouseClicked
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        String name = jComboBox2.getSelectedItem().toString();
+        ProductController productController = new ProductController();
+
+        try {
+            Product product = productController.getProductByName(name);
+            if (product != null) {
+                jLabel17.setText(String.valueOf(product.getPreco()));  // Atualiza o preço
+                jTextField11.setText(String.valueOf(product.getId()));  // Atualiza o ID do produto
+            }
+            pro_tot_cal();  // Função para calcular o total
+
+        } catch (SQLException e) {
+            e.printStackTrace();  // Log de erro para debug
+        }
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField11ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
+
+        Vector<String> v = new Vector<>();
+
+        v.add(jTextField11.getText());
+        v.add(jComboBox1.getSelectedItem().toString());
+        v.add(jComboBox2.getSelectedItem().toString());
+        v.add(jTextField5.getText());
+        v.add(jLabel17.getText());
+        v.add(jLabel19.getText());
+
+        dt.addRow(v);
+        cart_total();
+        tot();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        try {
+            DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
+            int row = jTable2.getSelectedRow();
+            dt.removeRow(row);
+        } catch (Exception e) {
+        }
+        cart_total();
+        tot();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        try {
+            DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
+            dt.setRowCount(0);
+        } catch (Exception e) {
+        }
+        cart_total();
+        tot();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        tot();
+    }//GEN-LAST:event_jTextField6KeyReleased
 
     /**
      * @param args the command line arguments
@@ -1202,6 +1466,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
+    private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

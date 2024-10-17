@@ -16,6 +16,11 @@ public class CartController {
     public void addCartItem(CartItem cartItem) {
         cartItemDAO.save(cartItem);
     }
+    public void addItemsToCart(List<CartItem> cartItems) throws SQLException {
+        for (CartItem item : cartItems) {
+            cartItemDAO.save(item);
+        }
+    }
 
     public List<CartItem> getAllCartItems() {
         return cartItemDAO.findAll();

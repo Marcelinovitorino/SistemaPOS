@@ -12,6 +12,10 @@ public class Extra {
         this.id = id;
         this.val = val;
     }
+     public Extra(String val) {
+     
+        this.val = val;
+    }
 
     // Getters e Setters
     public int getId() {

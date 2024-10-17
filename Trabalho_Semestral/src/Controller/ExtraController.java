@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ExtraController {
+
     private ExtraDAO extraDAO;
 
     public ExtraController() {
@@ -39,4 +40,11 @@ public class ExtraController {
         Extra extra = new Extra(id, val);
         extraDAO.update(extra);
     }
+
+    public boolean updateExtraVal(String val) throws SQLException {
+        Extra extra = new Extra(val);
+        extraDAO.updateVal(extra);
+        return true;
+    }
+   
 }

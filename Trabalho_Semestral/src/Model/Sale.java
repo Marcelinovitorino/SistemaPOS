@@ -23,9 +23,15 @@ public class Sale {
         this.status = status;
         this.troco = troco;
     }
-
-    public Sale() {
+     public Sale() {
+       
     }
+
+    
+    
+
+   // public Sale(int par, Integer par1, String cus_id, String cname, String totqty, String tot_bil, String status1, String blnc) {
+   // }
 
     // Getters and Setters
     public int getId() {

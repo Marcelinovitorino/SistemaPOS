@@ -12,8 +12,7 @@ public class ExtraDAO {
     public void save(Extra extra) {
         String sql = "INSERT INTO extra (val) VALUES (?)";
 
-        try (Connection conn = ConnectionMySQL.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
 
             pst.setString(1, extra.getVal());
             pst.executeUpdate();
@@ -27,9 +26,7 @@ public class ExtraDAO {
         String sql = "SELECT * FROM extra";
         List<Extra> extras = new ArrayList<>();
 
-        try (Connection conn = ConnectionMySQL.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql);
-             ResultSet rs = pst.executeQuery()) {
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql); ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
                 Extra extra = new Extra();
@@ -46,8 +43,7 @@ public class ExtraDAO {
 
     public Extra findById(int id) throws SQLException {
         String sql = "SELECT * FROM extra WHERE id = ?";
-        try (Connection conn = ConnectionMySQL.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
@@ -59,8 +55,7 @@ public class ExtraDAO {
 
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM extra WHERE id = ?";
-        try (Connection conn = ConnectionMySQL.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setInt(1, id);
             pst.executeUpdate();
         }
@@ -68,10 +63,17 @@ public class ExtraDAO {
 
     public void update(Extra extra) throws SQLException {
         String sql = "UPDATE extra SET val = ? WHERE id = ?";
-        try (Connection conn = ConnectionMySQL.getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, extra.getVal());
             pst.setInt(2, extra.getId());
+            pst.executeUpdate();
+        }
+    }
+
+    public void updateVal(Extra extra) throws SQLException {
+        String sql = "UPDATE extra SET val = ? WHERE id = 1";
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, extra.getVal());
             pst.executeUpdate();
         }
     }

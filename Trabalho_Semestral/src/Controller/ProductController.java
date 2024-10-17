@@ -35,4 +35,7 @@ public class ProductController {
     public List<Product> searchProductsByName(String name) throws SQLException {
         return productDAO.searchProductsByName(name);
     }
+
+    public Product getProductByName(String name) throws SQLException {
+         return productDAO.findByName(name); }
 }
