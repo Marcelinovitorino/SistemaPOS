@@ -5,50 +5,119 @@
 package View;
 
 import Controller.CustomerController;
+import Controller.ExtraController;
+import Controller.ProductController;
 import Model.Customer;
+import Model.Extra;
+import Model.Product;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author PC
- */
 public class OperadorCaixa extends javax.swing.JFrame {
 
     /**
      * Creates new form OperadorCaixa
      */
     CustomerController customer = new CustomerController();
-    
+
     public OperadorCaixa() {
         initComponents();
         tb_load();
-        
-       
-    }
-   public void tb_load() {
-    DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
-    dt.setRowCount(0);
-    
-    CustomerController customerController = new CustomerController();
-    
-    List<Customer> customers = customerController.getAllCustomers(); // Em produção, substitua isso por logs adequados
-    for (Customer customer : customers) {
-        // Cada cliente será adicionado como uma nova linha na tabela
-        dt.addRow(new Object[]{
-            customer.getId(),  // Supondo que você tenha um método getId()
-            customer.getNome(),
-            customer.getNumeroTelefone()
-        });
-    }
-}
+        data_load();
 
+    }
+
+    public void tb_load() {
+        DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+        dt.setRowCount(0);
+
+        CustomerController customerController = new CustomerController();
+
+        List<Customer> customers = customerController.getAllCustomers(); // Em produção, substitua isso por logs adequados
+        for (Customer customer : customers) {
+            // Cada cliente será adicionado como uma nova linha na tabela
+            dt.addRow(new Object[]{
+                customer.getId(), // Supondo que você tenha um método getId()
+                customer.getNome(),
+                customer.getNumeroTelefone()
+            });
+        }
+    }
 
     void enableOperadorFeatures(String email) {
         jLabel4.setText(email);
+    }
+
+    public void data_load() {
+        // Carregar dados no ComboBox de Cliente e Produto
+        loadCustomersToComboBox();
+        loadProductsToComboBox();
+
+        try {
+            // Atualizar JLabel com valor de extra
+            loadExtraValue();
+        } catch (SQLException ex) {
+            Logger.getLogger(OperadorCaixa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Incrementar o valor da jLabel5
+        incrementExtraValue();
+    }
+
+// Método para carregar dados no ComboBox de Cliente
+    private void loadCustomersToComboBox() {
+        CustomerController customerController = new CustomerController();
+        List<Customer> customers = customerController.getAllCustomers();
+
+        Vector<String> customerNames = new Vector<>();
+        for (Customer customer : customers) {
+            customerNames.add(customer.getNome());
+        }
+        System.out.println(customerNames);
+
+        DefaultComboBoxModel<String> customerModel = new DefaultComboBoxModel<>(customerNames);
+        jComboBox1.setModel(customerModel);
+    }
+
+// Método para carregar dados no ComboBox de Produto
+    private void loadProductsToComboBox() {
+        ProductController productController = new ProductController();
+        List<Product> products = productController.getAllProducts();
+
+        Vector<String> productNames = new Vector<>();
+        for (Product product : products) {
+            productNames.add(product.getNome());
+        }
+
+        DefaultComboBoxModel<String> productModel = new DefaultComboBoxModel<>(productNames);
+        jComboBox2.setModel(productModel);
+    }
+
+// Método para carregar e atualizar o valor de extra
+    private void loadExtraValue() throws SQLException {
+        ExtraController extraController = new ExtraController();
+        Extra extra = extraController.getExtraById(1); // Supondo que você tenha um método para buscar extra por ID
+
+        if (extra != null) {
+            jLabel32.setText(extra.getVal()); // Supondo que "val" seja um método em Extra
+        }
+    }
+
+// Método para incrementar o valor da JLabel
+    private void incrementExtraValue() {
+        try {
+            int currentValue = Integer.parseInt(jLabel32.getText());
+            currentValue++;
+            jLabel32.setText(String.valueOf(currentValue));
+        } catch (NumberFormatException e) {
+            System.out.println("Erro ao incrementar valor: " + e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -121,6 +190,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
@@ -472,7 +542,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
                 .addComponent(jButton6)
                 .addGap(31, 31, 31)
                 .addComponent(jButton7)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
 
         jLabel12.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
@@ -481,12 +551,8 @@ public class OperadorCaixa extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel13.setText("Cliente");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel14.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel14.setText("Produto");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel15.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel15.setText("Quantidade");
@@ -559,12 +625,13 @@ public class OperadorCaixa extends javax.swing.JFrame {
 
         jLabel28.setFont(new java.awt.Font("Agency FB", 1, 14)); // NOI18N
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/fechar.png"))); // NOI18N
-        jLabel28.setText("Fechar");
         jLabel28.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel28MouseClicked(evt);
             }
         });
+
+        jLabel32.setText("00.00");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -575,7 +642,10 @@ public class OperadorCaixa extends javax.swing.JFrame {
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
+                            .addGroup(jPanel13Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel13Layout.createSequentialGroup()
@@ -603,9 +673,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
                                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -617,68 +685,71 @@ public class OperadorCaixa extends javax.swing.JFrame {
                         .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel13Layout.createSequentialGroup()
-                                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(3, 3, 3)))))
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel13Layout.createSequentialGroup()
+                                    .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel13Layout.createSequentialGroup()
+                                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61))))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jLabel28)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 18, Short.MAX_VALUE))
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel12)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel18)
-                            .addComponent(jLabel19)
-                            .addComponent(jLabel20))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel21)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel22)
-                            .addComponent(jLabel23)
-                            .addComponent(jLabel24)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel25)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel32))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel20))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel24)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel9.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 810, 490));
@@ -855,28 +926,28 @@ public class OperadorCaixa extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       CustomerController customerController = new CustomerController();
-    
-    // Pega os valores da interface
-    String nome = jTextField3.getText();
-    String numero = jTextField4.getText();
-    
-    try {
-        int id = Integer.parseInt(jTextField1.getText());
+        CustomerController customerController = new CustomerController();
 
-        // Use o método de atualização do controlador
-        customerController.updateCustomer(id, nome, numero);
-        
-        JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
-        
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "ID inválido.");
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Erro ao atualizar cliente.");
-        e.printStackTrace();
-    }
+        // Pega os valores da interface
+        String nome = jTextField3.getText();
+        String numero = jTextField4.getText();
 
-    tb_load(); 
+        try {
+            int id = Integer.parseInt(jTextField1.getText());
+
+            // Use o método de atualização do controlador
+            customerController.updateCustomer(id, nome, numero);
+
+            JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar cliente.");
+            e.printStackTrace();
+        }
+
+        tb_load();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -909,11 +980,6 @@ public class OperadorCaixa extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_jLabel27MouseClicked
 
-    private void jLabel28MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel28MouseClicked
-        // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_jLabel28MouseClicked
-
     private void jLabel29MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel29MouseClicked
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(3);
@@ -929,92 +995,92 @@ public class OperadorCaixa extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      CustomerController customerController = new CustomerController();
-    try {
-        // Pegue o ID da interface
-        int id = Integer.parseInt(jTextField1.getText());
-        
-        // Use o controlador para buscar o cliente
-        Customer customer = customerController.getCustomerById(id);
-        
-        if (customer != null) {
-            // Preenche os campos com os dados do cliente
-            jTextField3.setText(customer.getNome());
-            jTextField4.setText(customer.getNumeroTelefone());
-            JOptionPane.showMessageDialog(null, "Cliente encontrado.");
-        } else {
-            JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
+        CustomerController customerController = new CustomerController();
+        try {
+            // Pegue o ID da interface
+            int id = Integer.parseInt(jTextField1.getText());
+
+            // Use o controlador para buscar o cliente
+            Customer customer = customerController.getCustomerById(id);
+
+            if (customer != null) {
+                // Preenche os campos com os dados do cliente
+                jTextField3.setText(customer.getNome());
+                jTextField4.setText(customer.getNumeroTelefone());
+                JOptionPane.showMessageDialog(null, "Cliente encontrado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar cliente.");
+
         }
 
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "ID inválido.");
-    } catch (SQLException ex) {
-          JOptionPane.showMessageDialog(null, "Erro ao buscar cliente.");
-        
-    }
-    
         tb_load();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       CustomerController customerController = new CustomerController();
-    
-    try {
-        // Pegue o ID da interface
-        int id = Integer.parseInt(jTextField1.getText());
-        
-        // Use o método do controlador para eliminar o cliente
-        customerController.deleteCustomer(id);
-        
-        JOptionPane.showMessageDialog(null, "Cliente eliminado com sucesso!");
-        
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "ID inválido.");
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Erro ao eliminar cliente.");
-        e.printStackTrace();
-    }
+        CustomerController customerController = new CustomerController();
 
-    tb_load();
+        try {
+            // Pegue o ID da interface
+            int id = Integer.parseInt(jTextField1.getText());
+
+            // Use o método do controlador para eliminar o cliente
+            customerController.deleteCustomer(id);
+
+            JOptionPane.showMessageDialog(null, "Cliente eliminado com sucesso!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao eliminar cliente.");
+            e.printStackTrace();
+        }
+
+        tb_load();
         tb_load();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
-      
-         CustomerController customerController = new CustomerController();
-    
-    try {
-        DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
-        dt.setRowCount(0);  // Limpa a tabela antes de adicionar novas linhas
-        
-        String nome = jTextField2.getText();
-        
-        // Usa o método do controlador para buscar clientes pelo nome
-        List<Customer> customers = customerController.searchCustomersByName(nome);
-        
-        for (Customer customer : customers) {
-            Vector<String> v = new Vector<>();
-            v.add(String.valueOf(customer.getId()));
-            v.add(customer.getNome());
-            v.add(customer.getNumeroTelefone());
-            dt.addRow(v);  // Adiciona os dados na tabela
+
+        CustomerController customerController = new CustomerController();
+
+        try {
+            DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+            dt.setRowCount(0);  // Limpa a tabela antes de adicionar novas linhas
+
+            String nome = jTextField2.getText();
+
+            // Usa o método do controlador para buscar clientes pelo nome
+            List<Customer> customers = customerController.searchCustomersByName(nome);
+
+            for (Customer customer : customers) {
+                Vector<String> v = new Vector<>();
+                v.add(String.valueOf(customer.getId()));
+                v.add(customer.getNome());
+                v.add(customer.getNumeroTelefone());
+                dt.addRow(v);  // Adiciona os dados na tabela
+            }
+
+            if (customers.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nenhum cliente encontrado.");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar clientes.");
+            e.printStackTrace();
+            tb_load();  // Carrega a tabela novamente em caso de erro
         }
-        
-        if (customers.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nenhum cliente encontrado.");
-        }
-        
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Erro ao buscar clientes.");
-        e.printStackTrace();
-        tb_load();  // Carrega a tabela novamente em caso de erro
-    }
     }//GEN-LAST:event_jTextField2KeyReleased
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-     
-          int r = jTable1.getSelectedRow();
-          String id = jTable1.getValueAt(r, 0).toString();
+
+        int r = jTable1.getSelectedRow();
+        String id = jTable1.getValueAt(r, 0).toString();
         String nome = jTable1.getValueAt(r, 1).toString();
         String telefone = jTable1.getValueAt(r, 2).toString();
 
@@ -1022,8 +1088,13 @@ public class OperadorCaixa extends javax.swing.JFrame {
         jTextField1.setText(id);
         jTextField3.setText(nome);
         jTextField4.setText(telefone);
-         tb_load();
+        tb_load();
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jLabel28MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel28MouseClicked
+        // TODO add your handling code here:
+        jTabbedPane1.setSelectedIndex(3);
+    }//GEN-LAST:event_jLabel28MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1100,6 +1171,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
