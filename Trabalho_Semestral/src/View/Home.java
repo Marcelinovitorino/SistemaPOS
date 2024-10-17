@@ -21,29 +21,50 @@ public class Home extends javax.swing.JFrame {
     }
 
     public void enableAdminFeatures(String email) {
-        jButton1.setVisible(true);
-        jButton7.setVisible(true);
-        jButton3.setVisible(true);
         jLabel4.setText("Administrador");
         jLabel3.setText(email);
+
+        jButton2.setVisible(true);
+        jButton7.setVisible(true);
+        jButton10.setVisible(true);
+        jButton8.setVisible(false);
+        jButton9.setVisible(false);
+        jButton4.setVisible(false);
+        jButton11.setVisible(false);
+        jButton3.setVisible(false);
+        jButton12.setVisible(false);
+
     }
 
     public void enableGestorFeatures(String email) {
-        jButton1.setVisible(true);
-        jButton7.setVisible(true);
-        jButton3.setVisible(false);
         jLabel4.setText("Gestor");
         jLabel3.setText(email);
+
+        jButton2.setVisible(true);
+        jButton7.setVisible(true);
+        jButton10.setVisible(true);
+        jButton8.setVisible(true);
+        jButton9.setVisible(true);
+        jButton4.setVisible(true);
+        jButton11.setVisible(true);
+        jButton3.setVisible(false);
+        jButton12.setVisible(false);
 
     }
 
     public void enableOperadorFeatures(String email) {
-        jButton1.setVisible(false);
-        jButton7.setVisible(false);
-        jButton3.setVisible(true);
         jLabel4.setText("Operador");
         jLabel3.setText(email);
 
+        jButton2.setVisible(true);
+        jButton7.setVisible(true);
+        jButton10.setVisible(true);
+        jButton8.setVisible(true);
+        jButton9.setVisible(true);
+        jButton4.setVisible(true);
+        jButton11.setVisible(true);
+        jButton3.setVisible(true);
+        jButton12.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -59,6 +80,12 @@ public class Home extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         panel_load = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -91,37 +118,85 @@ public class Home extends javax.swing.JFrame {
         });
         jPanel4.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 598, 80, -1));
 
-        jButton1.setText("feacturesgestor");
+        jButton1.setText("Faturas");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 130, -1));
+        jPanel4.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 130, -1));
 
-        jButton2.setText("painelloadertest");
+        jButton2.setText("Clientes");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, 130, -1));
+        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 130, -1));
 
-        jButton3.setText("feacturesoperador");
+        jButton3.setText("Administrador");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, -1, -1));
+        jPanel4.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 550, 130, -1));
 
-        jButton7.setText("feacturesadmin");
+        jButton7.setText("Vendas");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 130, -1));
+        jPanel4.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 130, -1));
+
+        jButton4.setText("Relatórios");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 130, -1));
+
+        jButton8.setText("Produtos");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 130, -1));
+
+        jButton9.setText("Funcionarios");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 130, -1));
+
+        jButton10.setText("Fornecedor");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, 130, -1));
+
+        jButton11.setText("Manufatura");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 470, 130, -1));
+
+        jButton12.setText("Usuario");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 510, 130, -1));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 630));
         jPanel1.add(panel_load, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 80, 810, 500));
@@ -169,6 +244,30 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -209,11 +308,17 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
