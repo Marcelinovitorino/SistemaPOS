@@ -211,19 +211,28 @@ public class Login extends javax.swing.JFrame {
 
             if (perfil != null) {
                 Home principal = new Home();
+                PainelAdmin ad = new PainelAdmin();
+                GestorVendas ge = new GestorVendas();
+                OperadorCaixa op= new OperadorCaixa();
                 switch (perfil) {
                     case "admin":
-                        principal.enableAdminFeatures(email);
+                        ad.setVisible(true);
+                        ad.enableAdminFeatures(email);
+                        //principal.enableAdminFeatures(email);jLabel4
                         break;
                     case "gestor":
-                        principal.enableGestorFeatures(email);
+                        ge.setVisible(true);
+                        ge.enableGestorFeatures(email);
+                       // principal.enableGestorFeatures(email);
                         break;
                     case "operador":
-                        principal.enableOperadorFeatures(email);
+                        op.setVisible(true);
+                        op.enableOperadorFeatures(email);
+                       // principal.enableOperadorFeatures(email);
                         break;
                 }
 
-                principal.setVisible(true);
+              
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Username ou senha incorretos!", "Erro de Login", JOptionPane.ERROR_MESSAGE);
