@@ -96,25 +96,24 @@ public class ProductDAO {
         return products;
     }
 
-   public Product findByName(String name) throws SQLException {
-    String sql = "SELECT * FROM produtos WHERE nome = ?";
-    try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
-        pst.setString(1, name);
-        ResultSet rs = pst.executeQuery();
-        if (rs.next()) {
-            return new Product(
-                rs.getInt("ID"), 
-                rs.getString("nome"), 
-                rs.getString("marca"), 
-                rs.getBigDecimal("preco"), 
-                rs.getInt("quantidade"), 
-                rs.getInt("IDFornecedor"), 
-                rs.getString("lote")
-            );
+    public Product findByName(String name) throws SQLException {
+        String sql = "SELECT * FROM produtos WHERE nome = ?";
+        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, name);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return new Product(
+                        rs.getInt("ID"),
+                        rs.getString("nome"),
+                        rs.getString("marca"),
+                        rs.getBigDecimal("preco"),
+                        rs.getInt("quantidade"),
+                        rs.getInt("IDFornecedor"),
+                        rs.getString("lote")
+                );
+            }
         }
+        return null;
     }
-    return null;
-}
-
 
 }
