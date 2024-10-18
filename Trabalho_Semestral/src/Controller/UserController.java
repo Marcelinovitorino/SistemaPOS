@@ -19,10 +19,10 @@ public class UserController {
     }
 
  
-    public void addUser(String nome, String numeroTelefone, String perfil, String username, String senha, int estado) {
+    public void addUser(String nome, String funcionario, String perfil, String username, String senha, int estado) {
         User user = new User();
         user.setNome(nome);
-        user.setNumeroTelefone(numeroTelefone);
+        user.setFuncionario(funcionario);
         user.setPerfil(perfil);
         user.setUsername(username);
         user.setSenha(senha);
@@ -56,12 +56,12 @@ public class UserController {
     }
 
  
-    public void updateUser(int id, String nome, String numeroTelefone, String perfil, String username, String senha, int estado) {
+    public void updateUser(int id, String nome, String funcionario, String perfil, String username, String senha, int estado) {
         try {
             User user = new User();
             user.setId(id);
             user.setNome(nome);
-            user.setNumeroTelefone(numeroTelefone);
+            user.setFuncionario(funcionario );
             user.setPerfil(perfil);
             user.setUsername(username);
             user.setSenha(senha);

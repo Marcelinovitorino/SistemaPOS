@@ -15,12 +15,12 @@ public class UserDAO {
 
     // Método para salvar um novo usuário no banco de dados
     public void save(User user) {
-        String sql = "INSERT INTO usuario (nome, numerotelefone, perfil, username, senha, estado) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (nome, funcionario, perfil, username, senha, estado) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
 
             pst.setString(1, user.getNome());
-            pst.setString(2, user.getNumeroTelefone());
+            pst.setString(2, user.getFuncionario());
             pst.setString(3, user.getPerfil());
             pst.setString(4, user.getUsername());
             pst.setString(5, user.getSenha());
@@ -43,7 +43,7 @@ public class UserDAO {
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setNome(rs.getString("nome"));
-                user.setNumeroTelefone(rs.getString("numerotelefone"));
+                user.setFuncionario(rs.getString("funcionario"));
                 user.setPerfil(rs.getString("perfil"));
                 user.setUsername(rs.getString("username"));
                 user.setSenha(rs.getString("senha"));
@@ -69,7 +69,7 @@ public class UserDAO {
                 return new User(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getString("numerotelefone"),
+                        rs.getString("funcionario"),
                         rs.getString("perfil"),
                         rs.getString("username"),
                         rs.getString("senha"),
@@ -91,7 +91,7 @@ public class UserDAO {
                 return new User(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getString("numerotelefone"),
+                        rs.getString("funcionario"),
                         rs.getString("perfil"),
                         rs.getString("username"),
                         rs.getString("senha"),
@@ -114,10 +114,10 @@ public class UserDAO {
 
     // Método para atualizar as informações de um usuário
     public void updateUser(User user) throws SQLException {
-        String sql = "UPDATE usuario SET nome = ?, numerotelefone = ?, perfil = ?, username = ?, senha = ?, estado = ? WHERE id = ?";
+        String sql = "UPDATE usuario SET nome = ?, funcionario = ?, perfil = ?, username = ?, senha = ?, estado = ? WHERE id = ?";
         try (Connection connection = ConnectionMySQL.getConnection(); PreparedStatement pst = connection.prepareStatement(sql)) {
             pst.setString(1, user.getNome());
-            pst.setString(2, user.getNumeroTelefone());
+            pst.setString(2, user.getFuncionario());
             pst.setString(3, user.getPerfil());
             pst.setString(4, user.getUsername());
             pst.setString(5, user.getSenha());
@@ -138,7 +138,7 @@ public class UserDAO {
                 users.add(new User(
                         rs.getInt("id"),
                         rs.getString("nome"),
-                        rs.getString("numerotelefone"),
+                        rs.getString("funcionario"),
                         rs.getString("perfil"),
                         rs.getString("username"),
                         rs.getString("senha"),

@@ -80,7 +80,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
         incrementExtraValue();
     }
 
-// Método para carregar dados no ComboBox de Cliente
+
     private void loadCustomersToComboBox() {
         CustomerController customerController = new CustomerController();
         List<Customer> customers = customerController.getAllCustomers();
@@ -659,6 +659,12 @@ public class OperadorCaixa extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel13.setText("Cliente");
+
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel14.setText("Produto");
@@ -1378,6 +1384,10 @@ public class OperadorCaixa extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments

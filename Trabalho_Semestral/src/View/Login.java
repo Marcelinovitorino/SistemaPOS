@@ -214,7 +214,7 @@ public class Login extends javax.swing.JFrame {
                 PainelAdmin ad = new PainelAdmin();
                 GestorVendas ge = new GestorVendas();
                 OperadorCaixa op= new OperadorCaixa();
-                switch (perfil) {
+                switch (perfil.toLowerCase()) {
                     case "admin":
                         ad.setVisible(true);
                         ad.enableAdminFeatures(email);

@@ -7,7 +7,7 @@ public class User {
 
     private int id;
     private String nome;
-    private String numeroTelefone;
+    private String funcionario;
     private String perfil;
     private String username;
     private String senha;
@@ -18,10 +18,10 @@ public class User {
     public User() {}
 
   
-    public User(int id, String nome, String numeroTelefone, String perfil, String username, String senha, int estado, Timestamp dataCriacao) {
+    public User(int id, String nome, String funcionario, String perfil, String username, String senha, int estado, Timestamp dataCriacao) {
         this.id = id;
         this.nome = nome;
-        this.numeroTelefone = numeroTelefone;
+        this.funcionario = funcionario;
         this.perfil = perfil;
         this.username = username;
         this.senha = senha;
@@ -46,12 +46,12 @@ public class User {
         this.nome = nome;
     }
 
-    public String getNumeroTelefone() {
-        return numeroTelefone;
+    public String getFuncionario() {
+        return funcionario;
     }
 
-    public void setNumeroTelefone(String numeroTelefone) {
-        this.numeroTelefone = numeroTelefone;
+    public void setFuncionario(String funcionario) {
+        this.funcionario = funcionario;
     }
 
     public String getPerfil() {
@@ -100,7 +100,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", numeroTelefone='" + numeroTelefone + '\'' +
+                ", numeroTelefone='" + funcionario + '\'' +
                 ", perfil='" + perfil + '\'' +
                 ", username='" + username + '\'' +
                 ", senha='" + senha + '\'' +
