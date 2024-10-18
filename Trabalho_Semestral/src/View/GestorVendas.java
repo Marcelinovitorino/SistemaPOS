@@ -6,8 +6,10 @@ package View;
 
 import Controller.CustomerController;
 import Controller.ProductController;
+import Controller.SupplierController;
 import Model.Customer;
 import Model.Product;
+import Model.Supplier;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +25,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GestorVendas extends javax.swing.JFrame {
 
+    SupplierController supplierController = new SupplierController();
+    Supplier supplier = new Supplier();
+
     public GestorVendas() {
         initComponents();
         tb_load();
@@ -33,23 +38,17 @@ public class GestorVendas extends javax.swing.JFrame {
     }
 
     public void tb_load() {
-        DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
         dt.setRowCount(0);
 
-        ProductController productController = new ProductController();
+        List<Supplier> suppliers = supplierController.getAllSuppliers();
+        for (Supplier supplier : suppliers) {
 
-        List<Product> products = productController.getAllProducts(); // Em produção, substitua isso por logs adequados
-        for (Product product : products) {
-            // Cada cliente será adicionado como uma nova linha na tabela
             dt.addRow(new Object[]{
-                product.getId(), // Supondo que você tenha um método getId()
-                product.getNome(),
-                product.getMarca(),
-                product.getPreco(),
-                product.getQuantidade(),
-                product.getIdFornecedor(),
-                product.getLote()
-
+                supplier.getId(),
+                supplier.getName(),
+                supplier.getPhoneNumber(),
+                supplier.getState()
             });
         }
     }
@@ -265,14 +264,12 @@ public class GestorVendas extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 222, Short.MAX_VALUE))))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -504,13 +501,12 @@ public class GestorVendas extends javax.swing.JFrame {
 
         jLabel27.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/fechar.png"))); // NOI18N
-        jLabel27.setText("Fechar");
         jLabel27.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel27MouseClicked(evt);
             }
         });
-        jPanel18.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 30, -1, -1));
+        jPanel18.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 30, -1, -1));
 
         jLabel20.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel20.setText("Nome");
@@ -525,6 +521,11 @@ public class GestorVendas extends javax.swing.JFrame {
         jButton6.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Cadastrar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jPanel18.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, -1, -1));
 
         jButton7.setBackground(new java.awt.Color(36, 80, 166));
@@ -542,6 +543,11 @@ public class GestorVendas extends javax.swing.JFrame {
         jButton8.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Actualizar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         jPanel18.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, -1, -1));
 
         jButton9.setBackground(new java.awt.Color(232, 0, 0));
@@ -576,6 +582,17 @@ public class GestorVendas extends javax.swing.JFrame {
         jLabel22.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel22.setText("Filtrar por nome");
         jPanel20.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField12ActionPerformed(evt);
+            }
+        });
+        jTextField12.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField12KeyReleased(evt);
+            }
+        });
         jPanel20.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 160, -1));
 
         jPanel18.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 90, 380, 380));
@@ -677,36 +694,35 @@ public class GestorVendas extends javax.swing.JFrame {
         jPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
         jLabel26.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
-        jLabel26.setText(" HISTÓRICO DE VENDAS ");
+        jLabel26.setText("Relatorios");
 
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addGap(303, 303, 303)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
+                .addContainerGap(348, Short.MAX_VALUE)
                 .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addGap(134, 134, 134))
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel26)
-                .addGap(14, 14, 14))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jPanel21.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, -1));
+        jPanel21.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 730, -1));
 
         jLabel28.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/fechar.png"))); // NOI18N
-        jLabel28.setText("Fechar");
         jLabel28.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel28MouseClicked(evt);
             }
         });
-        jPanel21.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 20, -1, -1));
+        jPanel21.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 20, -1, -1));
 
         jPanel16.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 790, 480));
 
@@ -777,11 +793,47 @@ public class GestorVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel27MouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+
+            int id = Integer.parseInt(jTextField9.getText());
+
+            Supplier supplier = supplierController.getSupplierById(id);
+
+            if (supplier != null) {
+
+                jTextField10.setText(supplier.getName());
+                jTextField11.setText(supplier.getPhoneNumber());
+                JOptionPane.showMessageDialog(null, "Fornecedor encontrado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Fornecedor não encontrado.");
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        }
+
+        tb_load();
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+         
+            int id = Integer.parseInt(jTextField9.getText());
+
+           
+            supplierController.deleteSupplier(id);
+
+            JOptionPane.showMessageDialog(null, "Fornecedor eliminado com sucesso!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        }
+
+        tb_load();
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jLabel28MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel28MouseClicked
@@ -955,9 +1007,7 @@ public class GestorVendas extends javax.swing.JFrame {
         String quantidade = jTextField5.getText();
         String lote = jTextField7.getText();
         String idFornecedor = jTextField6.getText();
-        
-            
-           
+
         try {
             int id = Integer.parseInt(jTextField1.getText());
 
@@ -980,9 +1030,45 @@ public class GestorVendas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        String nome = jTextField10.getText();
+        String numero = jTextField11.getText();
+
+        supplierController.saveSupplier(nome, numero, 1);
+        JOptionPane.showMessageDialog(null, "salvo");
+        tb_load();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        SupplierController supplierController = new SupplierController();
+
+// Pega os valores da interface
+        String nome = jTextField10.getText();
+        String numero = jTextField11.getText();
+
+        try {
+            int id = Integer.parseInt(jTextField1.getText());
+
+            supplierController.updateSupplier(id, nome, numero, 1);
+
+            JOptionPane.showMessageDialog(null, "Fornecedor atualizado com sucesso!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        }
+
+        tb_load();
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField12ActionPerformed
+
+    private void jTextField12KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField12KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField12KeyReleased
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
