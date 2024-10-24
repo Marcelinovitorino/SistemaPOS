@@ -153,7 +153,7 @@ public class RedifinirSenha extends javax.swing.JFrame {
         System.out.println(user.getUserByUsername(email).toJson());
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:3000/recover"))
+                .uri(URI.create("https://voidpayservermvp2.onrender.com/recover"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(data.toString()))
                 .build();
