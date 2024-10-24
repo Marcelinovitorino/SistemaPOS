@@ -39,4 +39,14 @@ public class Customer {
     public void setNumeroTelefone(String numeroTelefone) {
         this.numeroTelefone = numeroTelefone;
     }
+    
+    @Override
+public String toString() {
+    return "Customer{" +
+            "id=" + id +
+            ", nome='" + nome + '\'' +
+            ", numeroTelefone='" + numeroTelefone + '\'' +
+            '}';
+}
+
 }

@@ -2,6 +2,7 @@
 package Model;
 
 import java.sql.Timestamp;
+import org.json.JSONObject;
 
 public class User {
 
@@ -108,4 +109,16 @@ public class User {
                 ", dataCriacao=" + dataCriacao +
                 '}';
     }
+     public JSONObject toJson() {
+            JSONObject json = new JSONObject();
+            json.put("id", id);  // Placeholder, pode ser adaptado
+            json.put("name", nome);
+            json.put("funcionario", funcionario);
+            json.put("perfil", perfil);
+            json.put("username", username);
+            json.put("senha", senha);
+            json.put("estado", estado);
+            json.put("dataCriacao", dataCriacao);
+            return json;
+        }
 }

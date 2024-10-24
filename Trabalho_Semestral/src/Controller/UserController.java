@@ -8,6 +8,7 @@ import DAO.UserDAO;
 import Model.User;
 import java.sql.SQLException;
 import java.util.List;
+import org.json.JSONObject;
 
 public class UserController {
 
@@ -49,6 +50,14 @@ public class UserController {
     public User getUserByEmail(String email) {
         try {
             return userDAO.findUserByEmail(email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public User getUserByUsername(String username) {
+        try {
+            return userDAO.findUserByUsername(username);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -101,4 +110,6 @@ public class UserController {
             return null; 
         }
     }
+    
+    
 }

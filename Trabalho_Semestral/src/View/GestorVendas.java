@@ -764,7 +764,7 @@ public class GestorVendas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel28.add(jPanel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 100, 160, 70));
+        jPanel28.add(jPanel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 160, 70));
 
         jPanel32.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(242, 160, 7)));
 
@@ -797,7 +797,7 @@ public class GestorVendas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel28.add(jPanel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 190, 70));
+        jPanel28.add(jPanel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 190, 70));
 
         jPanel33.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(242, 160, 7)));
 
@@ -830,7 +830,7 @@ public class GestorVendas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel28.add(jPanel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, 170, 70));
+        jPanel28.add(jPanel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 230, 170, 70));
 
         jPanel34.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(242, 160, 7)));
 
@@ -863,7 +863,7 @@ public class GestorVendas extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jPanel28.add(jPanel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 130, 70));
+        jPanel28.add(jPanel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 100, 130, 70));
 
         jButton10.setBackground(new java.awt.Color(242, 160, 7));
         jButton10.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N

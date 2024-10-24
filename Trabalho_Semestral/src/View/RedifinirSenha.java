@@ -4,6 +4,22 @@
  */
 package View;
 
+import Controller.UserController;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.json.JSONObject;
+
 /**
  *
  * @author PC
@@ -124,7 +140,41 @@ public class RedifinirSenha extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       
+        JSONObject data = new JSONObject();
+        String email=jTextField1.getText();
+        UserController user = new UserController();
+        System.out.println(email);
+        //user.getUserByUsername(email);
+        
+        data.put("email", email);
+        
+        data.put("user", user.getUserByUsername(email).toJson());
+        System.out.println(user.getUserByUsername(email).toJson());
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:3000/recover"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(data.toString()))
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException ex) {
+            Logger.getLogger(RedifinirSenha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RedifinirSenha.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JsonObject responseJson;
+        responseJson = JsonParser.parseString(response.body()).getAsJsonObject();
+        boolean status = responseJson.has("status") && responseJson.get("status").getAsBoolean();
+        if (status) {
+            JOptionPane.showMessageDialog(null, response);
+            System.out.println("ERROOO");
+        } else {
+            System.out.println("ERROOO");
+        }
         ResetPassword codigoSenha = new ResetPassword();
         dispose();
         codigoSenha.show();

@@ -79,4 +79,18 @@ public class CartItem {
     public void setPrecoTotal(String precoTotal) {
         this.precoTotal = precoTotal;
     }
+
+    @Override
+    public String toString() {
+        return "CartItem{"
+                + "id=" + id
+                + ", idFatura=" + idFatura
+                + ", nomeProduto='" + nomeProduto + '\''
+                + ", idProduto='" + idProduto + '\''
+                + ", quantidade='" + quantidade + '\''
+                + ", precoUnit='" + precoUnit + '\''
+                + ", precoTotal='" + precoTotal + '\''
+                + '}';
+    }
+
 }

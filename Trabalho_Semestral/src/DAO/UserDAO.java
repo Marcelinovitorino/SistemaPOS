@@ -102,6 +102,27 @@ public class UserDAO {
         }
         return null;
     }
+    public User findUserByUsername(String username) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE email = ?";
+        try (Connection connection = ConnectionMySQL.getConnection(); 
+             PreparedStatement pst = connection.prepareStatement(sql)) {
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("funcionario"),
+                        rs.getString("perfil"),
+                        rs.getString("username"),
+                        rs.getString("senha"),
+                        rs.getInt("estado"),
+                        rs.getTimestamp("dataCriacao")
+                );
+            }
+        }
+        return null;
+    }
 
     // Método para deletar um usuário pelo ID
     public void deleteUser(int id) throws SQLException {

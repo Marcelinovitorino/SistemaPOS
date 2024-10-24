@@ -4,9 +4,12 @@
  */
 package View;
 
+//import a.projecto.OrderSender;
 import Controller.CartController;
 import Controller.CustomerController;
 import Controller.ExtraController;
+import Controller.OrderSender;
+
 import Controller.ProductController;
 import Controller.SaleController;
 import Model.CartItem;
@@ -79,7 +82,6 @@ public class OperadorCaixa extends javax.swing.JFrame {
         // Incrementar o valor da jLabel5
         incrementExtraValue();
     }
-
 
     private void loadCustomersToComboBox() {
         CustomerController customerController = new CustomerController();
@@ -1098,16 +1100,18 @@ public class OperadorCaixa extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
         CartController cartController = new CartController();
         SaleController salesController = new SaleController();
         ExtraController extraController = new ExtraController();
 
         try {
             // Fetching data from the UI table
-            DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+            DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
             int rc = dt.getRowCount();
-            List<CartItem> cartItems = new ArrayList<>();
 
+            List<CartItem> cartItems = new ArrayList<>();
+            System.out.println(rc);
             for (int i = 0; i < rc; i++) {
                 String inid = jLabel32.getText();
                 String produtid = dt.getValueAt(i, 0).toString(); // get product ID
@@ -1115,7 +1119,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
                 String qty = dt.getValueAt(i, 3).toString(); // get product quantity
                 String un_price = dt.getValueAt(i, 4).toString(); // get product unit price
                 String tot_price = dt.getValueAt(i, 5).toString(); // get product total price
-
+               
                 // Create CartItem object
                 CartItem cartItem = new CartItem(0, Integer.parseInt(inid), P_name, produtid, qty, un_price, tot_price);
                 cartItems.add(cartItem);
@@ -1124,13 +1128,23 @@ public class OperadorCaixa extends javax.swing.JFrame {
             // Use CartController to handle the database operations
             cartController.addItemsToCart(cartItems);
 
+            System.out.println(cartItems);
+            System.out.print(cartItems);
+            OrderSender.sendOrder(cartItems);
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error adding items to cart");
-            e.printStackTrace();
+            //  e.printStackTrace();
         }
 
         try {
-            int inv_id = Integer.parseInt(jLabel32.getText()); // Get idFatura
+            int inv_id = 0;
+            try {
+                inv_id = Integer.parseInt(jLabel32.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "ID de fatura inválido.");
+            }
+
             String cname = jComboBox1.getSelectedItem().toString(); // Customer name
             int totqty = Integer.parseInt(jLabel23.getText()); // Total quantity as int
             BigDecimal total = new BigDecimal(jTextField7.getText()); // Total bill as BigDecimal
@@ -1151,7 +1165,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Sale recorded successfully!");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error recording sale: " + e.getMessage());
-            e.printStackTrace();
+            //  e.printStackTrace();
         }
 
         //EXTRA
@@ -1165,7 +1179,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No rows updated. Check if the record exists.");
             }
         } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
+            //  System.err.println("SQL Exception: " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Error occurred while saving data: " + e.getMessage());
         }
         try {
@@ -1175,6 +1189,31 @@ public class OperadorCaixa extends javax.swing.JFrame {
         }
         cart_total();
         tot();
+        try {
+            DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
+            int rc = dt.getRowCount();
+            List<CartItem> cartItems = new ArrayList<>();
+
+            for (int i = 0; i < rc; i++) {
+                String inid = jLabel32.getText();
+                String produtid = dt.getValueAt(i, 0).toString(); // get product ID
+                String P_name = dt.getValueAt(i, 2).toString(); // get product name
+                String qty = dt.getValueAt(i, 3).toString(); // get product quantity
+                String un_price = dt.getValueAt(i, 4).toString(); // get product unit price
+                String tot_price = dt.getValueAt(i, 5).toString(); // get product total price
+
+                // Create CartItem object
+                CartItem cartItem = new CartItem(0, Integer.parseInt(inid), P_name, produtid, qty, un_price, tot_price);
+                cartItems.add(cartItem);
+            }
+            System.out.println(cartItems);
+            System.out.print(cartItems);
+            OrderSender.sendOrder(cartItems);
+        } catch (Exception e) {
+
+            System.err.println("ERRO DE PAGAMENTO: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error occurred while saving data: " + e.getMessage());
+        }
 
 
     }//GEN-LAST:event_jButton8ActionPerformed
