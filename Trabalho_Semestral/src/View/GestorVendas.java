@@ -5,10 +5,13 @@
 package View;
 
 import Controller.CustomerController;
+import Controller.EmployeeController;
 import Controller.ProductController;
 import Controller.ReportController;
+import Controller.EmployeeController;
 import Controller.SupplierController;
 import Model.Customer;
+import Model.Employee;
 import Model.Product;
 import Model.Supplier;
 import java.math.BigDecimal;
@@ -1457,8 +1460,9 @@ public class GestorVendas extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         String nome = jTextField3.getText();
         String numero = jTextField4.getText();
+        EmployeeController employeeController = new EmployeeController();
 
-        customer.saveCustomer(nome, numero);
+     //   employeeController.saveEmployee(nome, numero);
         JOptionPane.showMessageDialog(null, "salvo");
         tb_load();
     }//GEN-LAST:event_jButton5ActionPerformed
