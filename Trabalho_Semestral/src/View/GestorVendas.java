@@ -1062,10 +1062,9 @@ public class GestorVendas extends javax.swing.JFrame {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 
         try {
-         
+
             int id = Integer.parseInt(jTextField9.getText());
 
-           
             supplierController.deleteSupplier(id);
 
             JOptionPane.showMessageDialog(null, "Fornecedor eliminado com sucesso!");
@@ -1312,15 +1311,25 @@ public class GestorVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField12KeyReleased
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+
+        ReportController reportController = new ReportController();
+        int totalVendas = reportController.getTotalVendas();
+        int quantidadeTotal = reportController.getQuantidadeTotal();
+        BigDecimal receitaTotal = reportController.getReceitaTotal();
+        BigDecimal margemLucro = reportController.getMargemLucro();
+
        
-        
-        
-        ReportController report = new ReportController();
+        jLabel41.setText(String.valueOf(totalVendas));
+        jLabel43.setText(String.valueOf(quantidadeTotal));
+        jLabel45.setText(receitaTotal.toString());
+        jLabel47.setText(margemLucro.toString());
+
+
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jLabel50MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel50MouseClicked
         // TODO add your handling code here:
-         jTabbedPane1.setSelectedIndex(0);
+        jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel50MouseClicked
 
     public static void main(String args[]) {

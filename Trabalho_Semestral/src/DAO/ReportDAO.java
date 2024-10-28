@@ -13,8 +13,8 @@ import java.sql.SQLException;
 public class ReportDAO {
 
     public Report getRelatorioCompleto() {
-        String sql = "SELECT COUNT(*) AS totalVendas, SUM(quantidade) AS quantidade, SUM(preco * quantidade) AS receitaTotal, " +
-                     "SUM((preco * quantidade) - custoTotal) / SUM(preco * quantidade) AS margemLucro FROM vendas";
+        String sql = "SELECT COUNT(*) AS totalVendas, SUM(quantidadeTotal) AS quantidade, SUM(totalVendas * quantidade) AS receitaTotal, "
+                + "SUM((totalVendas * quantidade) / SUM(totalVendas * quantidade) AS margemLucro FROM vendas";
         try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
@@ -22,7 +22,7 @@ public class ReportDAO {
                 int quantidade = rs.getInt("quantidade");
                 BigDecimal receitaTotal = rs.getBigDecimal("receitaTotal");
                 BigDecimal margemLucro = rs.getBigDecimal("margemLucro");
-                
+
                 return new Report(0, totalVendas, quantidade, receitaTotal, margemLucro);
             }
         } catch (SQLException e) {
@@ -37,7 +37,7 @@ public class ReportDAO {
         try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                return rs.getInt("totalVendas");
+                return rs.getInt("totalPago");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -47,7 +47,7 @@ public class ReportDAO {
     }
 
     public int getQuantidadeTotal() {
-        String sql = "SELECT SUM(quantidade) AS quantidade FROM vendas";
+        String sql = "SELECT SUM(quantidadeTotal) AS quantidade FROM vendas";
         try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
