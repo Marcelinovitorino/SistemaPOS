@@ -124,6 +124,24 @@ public class GestorVendas extends javax.swing.JFrame {
         jTextField12 = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jPanel24 = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        jPanel25 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jTextField13 = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
+        jTextField15 = new javax.swing.JTextField();
+        jTextField16 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jPanel28 = new javax.swing.JPanel();
@@ -234,8 +252,9 @@ public class GestorVendas extends javax.swing.JFrame {
         });
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 180, -1));
 
+        jLabel17.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/product-development.png"))); // NOI18N
-        jLabel17.setText("Estoque ");
+        jLabel17.setText("Funcionarios");
         jLabel17.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -641,17 +660,120 @@ public class GestorVendas extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel14.setPreferredSize(new java.awt.Dimension(813, 510));
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 810, Short.MAX_VALUE)
+        jPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(187, 187, 187)));
+        jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(187, 187, 187)));
+
+        jLabel24.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        jLabel24.setText("Gestao de Funcionarios");
+
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+                .addContainerGap(291, Short.MAX_VALUE)
+                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(248, 248, 248))
         );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel23.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 770, 60));
+
+        jPanel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(187, 187, 187)));
+        jPanel25.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel25.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jLabel25.setText("Nome");
+        jPanel25.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 60, -1));
+
+        jLabel30.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jLabel30.setText("Numero de telefone");
+        jPanel25.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+
+        jLabel31.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jLabel31.setText("Estado");
+        jPanel25.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
+
+        jLabel32.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jLabel32.setText("Data de criacao");
+        jPanel25.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
+        jPanel25.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 220, -1));
+        jPanel25.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 220, -1));
+        jPanel25.add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 220, -1));
+        jPanel25.add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 220, -1));
+
+        jButton5.setBackground(new java.awt.Color(0, 130, 54));
+        jButton5.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Salvar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel25.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, -1, -1));
+
+        jButton11.setBackground(new java.awt.Color(36, 80, 166));
+        jButton11.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jButton11.setForeground(new java.awt.Color(255, 255, 255));
+        jButton11.setText("Pesquisar");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        jPanel25.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, -1, -1));
+
+        jButton12.setBackground(new java.awt.Color(242, 160, 7));
+        jButton12.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jButton12.setForeground(new java.awt.Color(255, 255, 255));
+        jButton12.setText("Actualizar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        jPanel25.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, -1, -1));
+
+        jButton13.setBackground(new java.awt.Color(232, 0, 0));
+        jButton13.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
+        jButton13.setForeground(new java.awt.Color(255, 255, 255));
+        jButton13.setText("Eliminar");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        jPanel25.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, 80, -1));
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nome", "Numero de Tel", "Estado", "Data criacao"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
+
+        jPanel25.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 360, 290));
+
+        jPanel23.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 770, 390));
+
+        jPanel14.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 790, 480));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -1332,6 +1454,90 @@ public class GestorVendas extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel50MouseClicked
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        String nome = jTextField3.getText();
+        String numero = jTextField4.getText();
+
+        customer.saveCustomer(nome, numero);
+        JOptionPane.showMessageDialog(null, "salvo");
+        tb_load();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        CustomerController customerController = new CustomerController();
+        try {
+            // Pegue o ID da interface
+            int id = Integer.parseInt(jTextField1.getText());
+
+            // Use o controlador para buscar o cliente
+            Customer customer = customerController.getCustomerById(id);
+
+            if (customer != null) {
+                // Preenche os campos com os dados do cliente
+                jTextField3.setText(customer.getNome());
+                jTextField4.setText(customer.getNumeroTelefone());
+                JOptionPane.showMessageDialog(null, "Cliente encontrado.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Cliente não encontrado.");
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar cliente.");
+
+        }
+
+        tb_load();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        CustomerController customerController = new CustomerController();
+
+        // Pega os valores da interface
+        String nome = jTextField3.getText();
+        String numero = jTextField4.getText();
+
+        try {
+            int id = Integer.parseInt(jTextField1.getText());
+
+            // Use o método de atualização do controlador
+            customerController.updateCustomer(id, nome, numero);
+
+            JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar cliente.");
+            e.printStackTrace();
+        }
+
+        tb_load();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        CustomerController customerController = new CustomerController();
+
+        try {
+            // Pegue o ID da interface
+            int id = Integer.parseInt(jTextField1.getText());
+
+            // Use o método do controlador para eliminar o cliente
+            customerController.deleteCustomer(id);
+
+            JOptionPane.showMessageDialog(null, "Cliente eliminado com sucesso!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID inválido.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao eliminar cliente.");
+            e.printStackTrace();
+        }
+
+        tb_load();
+    }//GEN-LAST:event_jButton13ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1367,9 +1573,13 @@ public class GestorVendas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -1390,11 +1600,16 @@ public class GestorVendas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
@@ -1428,6 +1643,9 @@ public class GestorVendas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
@@ -1444,13 +1662,19 @@ public class GestorVendas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField15;
+    private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
