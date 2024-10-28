@@ -6,6 +6,7 @@ package View;
 
 import Controller.CustomerController;
 import Controller.ProductController;
+import Controller.ReportController;
 import Controller.SupplierController;
 import Model.Customer;
 import Model.Product;
@@ -1311,7 +1312,10 @@ public class GestorVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField12KeyReleased
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+       
+        
+        
+        ReportController report = new ReportController();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jLabel50MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel50MouseClicked
