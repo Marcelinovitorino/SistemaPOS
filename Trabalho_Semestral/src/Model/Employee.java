@@ -5,19 +5,25 @@ public class Employee {
     private long id;
     private String nome;
     private String numeroTelefone;
-    private int estado;
-    private String dataCriacao;
+  
+   
 
     public Employee() {
     }
 
-    public Employee(long id, String nome, String numeroTelefone, int estado, String dataCriacao) {
+    public Employee(long id, String nome, String numeroTelefone) {
         this.id = id;
         this.nome = nome;
         this.numeroTelefone = numeroTelefone;
-        this.estado = estado;
-        this.dataCriacao = dataCriacao;
+        
     }
+     public Employee(String nome, String numeroTelefone) {
+      
+        this.nome = nome;
+        this.numeroTelefone = numeroTelefone;
+        
+    }
+    
 
     // Getters and Setters
     public long getId() {
@@ -44,19 +50,6 @@ public class Employee {
         this.numeroTelefone = numeroTelefone;
     }
 
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
-
-    public String getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(String dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+ 
+  
 }

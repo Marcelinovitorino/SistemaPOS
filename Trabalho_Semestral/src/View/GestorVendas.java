@@ -31,17 +31,42 @@ public class GestorVendas extends javax.swing.JFrame {
 
     SupplierController supplierController = new SupplierController();
     Supplier supplier = new Supplier();
+    Employee employee = new Employee();
+    EmployeeController employeeController = new EmployeeController();
+    ProductController productController= new ProductController();
+    Product product = new Product();
 
     public GestorVendas() {
-        initComponents();
+        initComponents(); 
         tb_load();
+        tb_load1();
+        tb_load2();
     }
 
     void enableGestorFeatures(String email) {
         jLabel23.setText(email);
     }
 
-    public void tb_load() {
+   public void tb_load() {
+    DefaultTableModel dt = (DefaultTableModel) jTable1.getModel();
+    dt.setRowCount(0); // Limpa as linhas existentes
+
+    // Supondo que você tenha um controller de produtos que obtém todos os produtos
+    List<Product> products = productController.getAllProducts(); // Obter todos os produtos
+    for (Product product : products) {
+        dt.addRow(new Object[]{
+            product.getId(),
+            product.getNome(),
+            product.getPreco(),
+            product.getMarca(),
+            product.getQuantidade(),
+            product.getLote(),
+            product.getIdFornecedor()
+        });
+    }
+}
+
+    public void tb_load1() {
         DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
         dt.setRowCount(0);
 
@@ -53,6 +78,21 @@ public class GestorVendas extends javax.swing.JFrame {
                 supplier.getName(),
                 supplier.getPhoneNumber(),
                 supplier.getState()
+            });
+        }
+    }
+
+    public void tb_load2() {
+        DefaultTableModel dt = (DefaultTableModel) jTable3.getModel();
+        dt.setRowCount(0);
+
+        List<Employee> employees = employeeController.getAllEmployees();
+        for (Employee employee : employees) {
+
+            dt.addRow(new Object[]{
+             
+                employee.getNome(),
+                employee.getNumeroTelefone()
             });
         }
     }
@@ -134,11 +174,8 @@ public class GestorVendas extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
         jTextField13 = new javax.swing.JTextField();
         jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
@@ -697,7 +734,7 @@ public class GestorVendas extends javax.swing.JFrame {
 
         jLabel25.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel25.setText("Nome");
-        jPanel25.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 60, -1));
+        jPanel25.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 60, -1));
 
         jLabel30.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel30.setText("Numero de telefone");
@@ -706,14 +743,8 @@ public class GestorVendas extends javax.swing.JFrame {
         jLabel31.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel31.setText("Estado");
         jPanel25.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
-
-        jLabel32.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
-        jLabel32.setText("Data de criacao");
-        jPanel25.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
-        jPanel25.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 220, -1));
+        jPanel25.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 220, -1));
         jPanel25.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 220, -1));
-        jPanel25.add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 220, -1));
-        jPanel25.add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 220, -1));
 
         jButton5.setBackground(new java.awt.Color(0, 130, 54));
         jButton5.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
@@ -1180,7 +1211,7 @@ public class GestorVendas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ID inválido.");
         }
 
-        tb_load();
+        tb_load1();
 
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -1198,7 +1229,7 @@ public class GestorVendas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ID inválido.");
         }
 
-        tb_load();
+        tb_load1();
 
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -1402,7 +1433,7 @@ public class GestorVendas extends javax.swing.JFrame {
 
         supplierController.saveSupplier(nome, numero, 1);
         JOptionPane.showMessageDialog(null, "salvo");
-        tb_load();
+        tb_load1();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -1423,7 +1454,7 @@ public class GestorVendas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ID inválido.");
         }
 
-        tb_load();
+        tb_load1();
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -1443,7 +1474,6 @@ public class GestorVendas extends javax.swing.JFrame {
         BigDecimal receitaTotal = reportController.getReceitaTotal();
         BigDecimal margemLucro = reportController.getMargemLucro();
 
-       
         jLabel41.setText(String.valueOf(totalVendas));
         jLabel43.setText(String.valueOf(quantidadeTotal));
         jLabel45.setText(receitaTotal.toString());
@@ -1458,13 +1488,14 @@ public class GestorVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel50MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String nome = jTextField3.getText();
-        String numero = jTextField4.getText();
-        EmployeeController employeeController = new EmployeeController();
+        String nome = jTextField13.getText();
+        String numero = jTextField14.getText();
+        
 
-     //   employeeController.saveEmployee(nome, numero);
+        employeeController.saveEmployee(new Employee(nome, numero));
         JOptionPane.showMessageDialog(null, "salvo");
-        tb_load();
+        tb_load2();
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -1613,7 +1644,6 @@ public class GestorVendas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
@@ -1677,8 +1707,6 @@ public class GestorVendas extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

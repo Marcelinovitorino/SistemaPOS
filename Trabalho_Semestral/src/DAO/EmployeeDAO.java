@@ -32,8 +32,7 @@ public class EmployeeDAO {
                 employee.setId(rs.getLong("id"));
                 employee.setNome(rs.getString("nome"));
                 employee.setNumeroTelefone(rs.getString("numerotelefone"));
-                employee.setEstado(rs.getInt("estado"));
-                employee.setDataCriacao(rs.getString("dataCriacao"));
+               
                 employees.add(employee);
             }
         } catch (SQLException e) {
@@ -48,7 +47,7 @@ public class EmployeeDAO {
             pst.setLong(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                return new Employee(rs.getLong("id"), rs.getString("nome"), rs.getString("numerotelefone"), rs.getInt("estado"), rs.getString("dataCriacao"));
+                return new Employee(rs.getLong("id"), rs.getString("nome"), rs.getString("numerotelefone"));
             }
         }
         return null;
@@ -79,7 +78,7 @@ public class EmployeeDAO {
             pst.setString(1, "%" + name + "%");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                employees.add(new Employee(rs.getLong("id"), rs.getString("nome"), rs.getString("numerotelefone"), rs.getInt("estado"), rs.getString("dataCriacao")));
+                employees.add(new Employee(rs.getLong("id"), rs.getString("nome"), rs.getString("numerotelefone")));
             }
         }
         return employees;

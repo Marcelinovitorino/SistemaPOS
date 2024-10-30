@@ -32,10 +32,11 @@ public class ReportView extends JFrame {
    
 
     public ReportView(String fileName, HashMap para) {
-        super("VOID Solutions  System (Report Viewer)");
+        super("VOIDpay Print System");
 
         try {
            Connection con = ConnectionMySQL.getConnection();
+            System.out.println(con);
 
             try {
                 JasperPrint print = JasperFillManager.fillReport(fileName, para, con);
