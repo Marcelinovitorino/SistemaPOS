@@ -104,6 +104,15 @@ public class Login extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Century", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(242, 160, 7));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/apitherapy100.png"))); // NOI18N
+        jLabel8.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel8AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/connected.png"))); // NOI18N
 
@@ -256,6 +265,10 @@ public class Login extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jLabel8AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel8AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel8AncestorAdded
 
     public static void main(String args[]) {
 

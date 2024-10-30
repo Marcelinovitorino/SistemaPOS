@@ -6,10 +6,13 @@ package View;
 
 import Controller.CustomerController;
 import Controller.EmployeeController;
+import Controller.SaleController;
 import Controller.UserController;
 import Model.Customer;
 import Model.Employee;
+import Model.Sale;
 import Model.User;
+import View.ReportView;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -27,7 +30,8 @@ public class PainelAdmin extends javax.swing.JFrame {
     public PainelAdmin() {
         initComponents();
         loadEmployeesToComboBox();
-         tb_load();
+        tb_load();
+        datalad();
     }
 
     void enableAdminFeatures(String email) {
@@ -64,6 +68,36 @@ public class PainelAdmin extends javax.swing.JFrame {
                 user.getUsername(),
                 user.getEstado()
             });
+        }
+    }
+
+    public void datalad() {
+        try {
+            // Obter o modelo da tabela e limpar as linhas existentes
+            DefaultTableModel dt = (DefaultTableModel) jTable2.getModel();
+            dt.setRowCount(0);
+
+            // Obter a lista de vendas do controlador
+            SaleController saleController = new SaleController();
+            List<Sale> sales = saleController.getAllSales();
+
+            // Preencher a tabela com os dados das vendas
+            for (Sale sale : sales) {
+                Vector<Object> v = new Vector<>();
+                v.add(sale.getId());
+                v.add(sale.getIdFatura());
+                v.add(sale.getIdCliente());
+                v.add(sale.getNomeCliente());
+                v.add(sale.getQuantidadeTotal());
+                v.add(sale.getTotalPago());
+                v.add(sale.getStatus());
+                v.add(sale.getTroco());
+                dt.addRow(v);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar dados: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -119,6 +153,10 @@ public class PainelAdmin extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -599,18 +637,48 @@ public class PainelAdmin extends javax.swing.JFrame {
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nr da Factura", "Cliente", "Produto", "Quantidade", "Total pago"
+                "Nr da Factura", "Cliente", "Produto", "Quantidade", "Title 5", "Title 6", "Title 7", "Total pago"
             }
         ));
+        jTable2.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTable2AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jPanel14.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 790, 280));
+
+        jButton8.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        jButton8.setText("Gerar");
+        jPanel14.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 400, 170, 40));
+
+        jButton10.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        jButton10.setText("Gerar Todos");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+        jPanel14.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 170, 40));
+
+        jLabel23.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        jLabel23.setText("NR FATURA:");
+        jPanel14.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 396, 90, 50));
+
+        jTextField9.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        jTextField9.setText("0");
+        jPanel14.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 400, -1, 40));
 
         jPanel11.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 810, 480));
 
@@ -863,6 +931,20 @@ public class PainelAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField8ActionPerformed
 
+    private void jTable2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTable2AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable2AncestorAdded
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+
+        try {
+            ReportView re = new ReportView("src\\JasperReports\\report2.jasper");
+            re.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -897,11 +979,13 @@ public class PainelAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -921,6 +1005,7 @@ public class PainelAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
@@ -966,6 +1051,7 @@ public class PainelAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
 }
