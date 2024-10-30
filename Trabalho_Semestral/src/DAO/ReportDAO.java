@@ -13,17 +13,23 @@ import java.sql.SQLException;
 public class ReportDAO {
 
     public Report getRelatorioCompleto() {
-        String sql = "SELECT COUNT(*) AS totalVendas, SUM(quantidadeTotal) AS quantidade, SUM(totalVendas * quantidade) AS receitaTotal, "
-                + "SUM((totalVendas * quantidade) / SUM(totalVendas * quantidade) AS margemLucro FROM vendas";
-        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+        String sql = "SELECT COUNT(*) AS totalVendas, " +
+                     "SUM(quantidadeTotal) AS quantidadeTotal, " +
+                     "SUM(totalPago) AS receitaTotal, " +
+                     "SUM(totalPago) - SUM(custoTotal) AS lucroTotal, " +
+                     "CASE WHEN SUM(totalPago) = 0 THEN 0 ELSE (SUM(totalPago) - SUM(custoTotal)) / SUM(totalPago) END AS margemLucro " +
+                     "FROM vendas";
+        try (Connection conn = ConnectionMySQL.getConnection(); 
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+             
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 int totalVendas = rs.getInt("totalVendas");
-                int quantidade = rs.getInt("quantidade");
+                int quantidadeTotal = rs.getInt("quantidadeTotal");
                 BigDecimal receitaTotal = rs.getBigDecimal("receitaTotal");
                 BigDecimal margemLucro = rs.getBigDecimal("margemLucro");
 
-                return new Report(0, totalVendas, quantidade, receitaTotal, margemLucro);
+                return new Report(0, totalVendas, quantidadeTotal, receitaTotal, margemLucro);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -34,10 +40,12 @@ public class ReportDAO {
 
     public int getTotalVendas() {
         String sql = "SELECT COUNT(*) AS totalVendas FROM vendas";
-        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionMySQL.getConnection(); 
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+             
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                return rs.getInt("totalPago");
+                return rs.getInt("totalVendas");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -47,11 +55,13 @@ public class ReportDAO {
     }
 
     public int getQuantidadeTotal() {
-        String sql = "SELECT SUM(quantidadeTotal) AS quantidade FROM vendas";
-        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+        String sql = "SELECT SUM(quantidadeTotal) AS quantidadeTotal FROM vendas";
+        try (Connection conn = ConnectionMySQL.getConnection(); 
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+             
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                return rs.getInt("quantidade");
+                return rs.getInt("quantidadeTotal");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -61,8 +71,10 @@ public class ReportDAO {
     }
 
     public BigDecimal getReceitaTotal() {
-        String sql = "SELECT SUM(preco * quantidade) AS receitaTotal FROM vendas";
-        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+        String sql = "SELECT SUM(totalPago) AS receitaTotal FROM vendas";
+        try (Connection conn = ConnectionMySQL.getConnection(); 
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+             
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 return rs.getBigDecimal("receitaTotal");
@@ -75,8 +87,10 @@ public class ReportDAO {
     }
 
     public BigDecimal getMargemLucro() {
-        String sql = "SELECT SUM((preco * quantidade) - custoTotal) / SUM(preco * quantidade) AS margemLucro FROM vendas";
-        try (Connection conn = ConnectionMySQL.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+        String sql = "SELECT CASE WHEN SUM(totalPago) = 0 THEN 0 ELSE (SUM(totalPago) - SUM(custoTotal)) / SUM(totalPago) END AS margemLucro FROM vendas";
+        try (Connection conn = ConnectionMySQL.getConnection(); 
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+             
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 return rs.getBigDecimal("margemLucro");

@@ -283,7 +283,7 @@ public class GestorVendas extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/report.png"))); // NOI18N
-        jLabel7.setText("Relatórios");
+        jLabel7.setText("Estatisticas");
         jLabel7.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -734,7 +734,7 @@ public class GestorVendas extends javax.swing.JFrame {
 
         jLabel25.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel25.setText("Nome");
-        jPanel25.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 60, -1));
+        jPanel25.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 60, -1));
 
         jLabel30.setFont(new java.awt.Font("Agency FB", 1, 18)); // NOI18N
         jLabel30.setText("Numero de telefone");
@@ -1474,9 +1474,9 @@ public class GestorVendas extends javax.swing.JFrame {
         BigDecimal receitaTotal = reportController.getReceitaTotal();
         BigDecimal margemLucro = reportController.getMargemLucro();
 
-        jLabel41.setText(String.valueOf(totalVendas));
-        jLabel43.setText(String.valueOf(quantidadeTotal));
-        jLabel45.setText(receitaTotal.toString());
+        jLabel41.setText(receitaTotal.toString());
+        jLabel43.setText(String.valueOf(totalVendas) );
+        jLabel45.setText(String.valueOf(quantidadeTotal));
         jLabel47.setText(margemLucro.toString());
 
 
