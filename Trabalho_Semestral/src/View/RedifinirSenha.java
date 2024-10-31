@@ -143,17 +143,18 @@ public class RedifinirSenha extends javax.swing.JFrame {
        
         JSONObject data = new JSONObject();
         String email=jTextField1.getText();
-        UserController user = new UserController();
+       // UserController user = new UserController();
         System.out.println(email);
         //user.getUserByUsername(email);
         
         data.put("email", email);
         
-        data.put("user", user.getUserByUsername(email).toJson());
-        System.out.println(user.getUserByUsername(email).toJson());
+       // data.put("user", user.getUserByUsername(email).toJson());
+       // System.out.println(user.getUserByUsername(email).toJson());
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://voidpaywebmvp2.onrender.com/recoveraccount"))
+                
+                .uri(URI.create("https://voidpaywebmvp2.onrender.com/auth/recoveraccount"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(data.toString()))
                 .build();
