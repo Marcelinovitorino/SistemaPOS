@@ -154,10 +154,10 @@ public class RedifinirSenha extends javax.swing.JFrame {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 
-                .uri(URI.create("https://voidpaywebmvp2.onrender.com/auth/recoveraccount"))
+                .uri(URI.create("https://voidpayservermvp2.onrender.com/auth/recoveraccount"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(data.toString()))
-                .build();
+                .build(); 
 
         HttpResponse<String> response = null;
         try {
@@ -172,7 +172,7 @@ public class RedifinirSenha extends javax.swing.JFrame {
         boolean status = responseJson.has("status") && responseJson.get("status").getAsBoolean();
         if (status) {
             JOptionPane.showMessageDialog(null, response);
-            System.out.println("ERROOO");
+            System.out.println(data);
         } else {
             System.out.println("ERROOO");
         }

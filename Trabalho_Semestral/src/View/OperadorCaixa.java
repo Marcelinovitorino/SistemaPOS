@@ -1208,7 +1208,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
             // Save sale using the sales controller
             salesController.saveSale(sale);
 
-            JOptionPane.showMessageDialog(null, "Sale recorded successfully!");
+           // JOptionPane.showMessageDialog(null, "Sale recorded successfully!");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error recording sale: " + e.getMessage());
             //  e.printStackTrace();
@@ -1220,7 +1220,7 @@ public class OperadorCaixa extends javax.swing.JFrame {
             String id = jLabel32.getText();
 
             if (extraController.updateExtraVal(id)) {
-                JOptionPane.showMessageDialog(null, "Data saved successfully!");
+               // JOptionPane.showMessageDialog(null, "Data saved successfully!");
             } else {
                 JOptionPane.showMessageDialog(null, "No rows updated. Check if the record exists.");
             }
@@ -1259,6 +1259,12 @@ public class OperadorCaixa extends javax.swing.JFrame {
 
             System.err.println("ERRO DE PAGAMENTO: " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Error occurred while saving data: " + e.getMessage());
+        }
+         try {
+            ReportView re = new ReportView("src\\JasperReports\\report4.jasper");
+            re.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 

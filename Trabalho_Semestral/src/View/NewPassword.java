@@ -94,9 +94,9 @@ public class NewPassword extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Home principal = new Home();
+        Login login = new Login();
         dispose();
-        principal.show();
+        login.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
